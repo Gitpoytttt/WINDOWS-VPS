@@ -26,7 +26,11 @@ jobs:
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Infantvalan03" -Force)
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
-    - name: Downloading Loop File
-      run: Invoke-WebRequest https://rdpfiles.viptorrentleechbot.workers.dev/0:/loop.bat -OutFile loop.bat
+    - name: Download Important Files.
+      run: |
+        Invoke-WebRequest https://github.com/best-noob-tricky//WindowsRDP/raw/main/NGROK-CHECK.bat -OutFile NGROK-CHECK.bat
+        Invoke-WebRequest https://github.com/best-noob-tricky//WindowsRDP/raw/main/loop.bat -OutFile loop.bat
+    - name: Connect to your RDP 2core-7GB Ram.
+      run: cmd /c NGROK-CHECK.bat
     - name: All Done! You can close Tab now! Maximum VM time:6h.
       run: cmd /c loop.bat 

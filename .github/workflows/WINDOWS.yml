@@ -28,10 +28,6 @@ jobs:
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Infantvalan03" -Force)
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
-    - name: Download Ngrok Check 
-      run: Invoke-WebRequest https://botindex.discovery.workers.dev/0:/FastLinks/NGROK-CHECK%20(2).bat  -OutFile NGROK-CHECK.bat
-    - name: Connect to your RDP 2core-7GB Ram.
-      run: cmd /c NGROK-CHECK.bat
     - name: Downloading Loop File
       run: Invoke-WebRequest https://botindex.discovery.workers.dev/0:/FastLinks/loop.bat  -OutFile loop.bat
     - name: All Done! You can close Tab now! Maximum VM time:6h.

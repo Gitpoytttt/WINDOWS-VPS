@@ -8,8 +8,6 @@ jobs:
   build:
     runs-on: windows-latest
     steps:
-    - name: Install VLC
-      run: choco install vlc
     - name: Download Ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
     - name: Extract Ngrok Archive
@@ -28,10 +26,6 @@ jobs:
       run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Infantvalan03" -Force)
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
-    - name: Download Ngrok Check 
-      run: Invoke-WebRequest https://rdpfiles.viptorrentleechbot.workers.dev/0:/NGROK-CHECK.bat -OutFile NGROK-CHECK.bat
-    - name: Connect to your RDP 2core-7GB Ram.
-      run: cmd /c NGROK-CHECK.bat
     - name: Downloading Loop File
       run: Invoke-WebRequest https://rdpfiles.viptorrentleechbot.workers.dev/0:/loop.bat -OutFile loop.bat
     - name: All Done! You can close Tab now! Maximum VM time:6h.

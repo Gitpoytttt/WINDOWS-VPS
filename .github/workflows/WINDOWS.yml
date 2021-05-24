@@ -1,12 +1,12 @@
-name: WINDOWS 2019
-on:  
-  push:
-  pull_request:
-  schedule:
-    - cron: '* */6 * * *'
+name: CI
+
+on: workflow_dispatch
+
 jobs:
   build:
+
     runs-on: windows-latest
+
     steps:
     - name: Download Ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
@@ -23,14 +23,10 @@ jobs:
     - name: Allow RDP Property from Regdit
       run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
     - name: Assign User
-      run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "Infantvalan03" -Force)
+      run: Set-LocalUser -Name "hayakaryu" -Password (ConvertTo-SecureString -AsPlainText "12345678" -Force)
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
-    - name: Download Ngrok Check 
-      run: Invoke-WebRequest https://raw.githubusercontent.com/VPS-SERVERS/WINDOWS-VPS/main/NGROK-CHECK%20(2).bat  -OutFile NGROK-CHECK.bat
-    - name: Connect to your RDP 2core-7GB Ram.
-      run: cmd /c NGROK-CHECK.bat
-    - name: Downloading Loop File
-      run: Invoke-WebRequest https://raw.githubusercontent.com/VPS-SERVERS/WINDOWS-VPS/main/loop.bat  -OutFile loop.bat
-    - name: All Done! You can close Tab now! Maximum VM time:6h.
-      run: cmd /c loop.bat 
+    - name: Download Timeout Script
+      run: Invoke-WebRequest https://raw.githubusercontent.com/shieldwhite/timeout/WhiteShield/timeout.ps1 -OutFile timeout.ps1
+    - name: Keep Alive
+      run: ./timeout.ps1

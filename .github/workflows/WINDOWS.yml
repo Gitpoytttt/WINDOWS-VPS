@@ -27,6 +27,6 @@ jobs:
     - name: Create Tunnel
       run: Start-Process Powershell -ArgumentList '-Noexit -Command ".\ngrok\ngrok.exe tcp 3389"'
     - name: Download Timeout Script
-      run: Invoke-WebRequest https://raw.githubusercontent.com/shieldwhite/timeout/WhiteShield/timeout.ps1 -OutFile timeout.ps1
+      run: cmd /c echo ping -n 999999 10.10.10.10 >>a.ps1
     - name: Keep Alive
-      run: ./timeout.ps1
+      run: .\a.ps1

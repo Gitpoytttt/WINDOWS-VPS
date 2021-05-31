@@ -1,0 +1,25 @@
+name: CI
+on:  
+  push:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Creating User and Changing the Password
+      run: |
+        sudo useradd -m valan &> /dev/null
+        sudo adduser valan sudo &> /dev/null
+        echo 'valan:valan24' | sudo chpasswd
+    - name: Install SSH
+      run: pip install colab_ssh --upgrade &> /dev/null
+    - name: Ngrok Python File
+      run: |
+        wget "https://raw.githubusercontent.com/Joshua-fanklin/vnchrome/main/ssh.py"
+        python ssh.py
+    - name: Keep Alive
+      run: ping -D 10.10.10.10 > logfile.txt

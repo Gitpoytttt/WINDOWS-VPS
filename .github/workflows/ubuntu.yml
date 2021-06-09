@@ -8,7 +8,9 @@ on:
       passwd:
         description: 'Enter Your Password'
         required: true
-
+      authtoken:
+        description: 'Enter Ngrok Token'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -30,9 +32,7 @@ jobs:
         wget "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip"
         unzip "ngrok-stable-linux-386.zip"
     - name: Auth
-      run: ./ngrok authtoken $Env:NGROK_AUTH_TOKEN
-      env:
-        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+      run: ./ngrok authtoken ${{ github.event.inputs.authtoken }}
     - name: Start Ngrok Tunnel
       run: ./ngrok tcp 3389
     - name: Keep Alive

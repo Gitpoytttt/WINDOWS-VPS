@@ -22,10 +22,9 @@ jobs:
       run: |
         sudo apt update
         sudo apt upgrade -y
-        sudo apt install xubuntu-desktop
+        sudo apt install ubuntu-desktop
         sudo apt install xrdp
         sudo adduser xrdp ssl-cert
-        systemctl restart xrdp
     - name: Download Ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
     - name: Extract Ngrok Archive

@@ -20,7 +20,7 @@ jobs:
         echo '${{ github.event.inputs.user }}:${{ github.event.inputs.passwd }}' | sudo chpasswd
     - name: Setup Desktop
       run: |
-        sudo apt install ubuntu-desktop
+        sudo apt install xubuntu-desktop
         sudo apt install xrdp
         sudo adduser xrdp ssl-cert
         systemctl restart xrdp

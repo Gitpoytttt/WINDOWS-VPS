@@ -20,9 +20,9 @@ jobs:
         echo '${{ github.event.inputs.user }}:${{ github.event.inputs.passwd }}' | sudo chpasswd
     - name: Setup Desktop
       run: |
-        apt install ubuntu-desktop
-        apt install xrdp
-        adduser xrdp ssl-cert
+        sudo apt install ubuntu-desktop
+        sudo apt install xrdp
+        sudo adduser xrdp ssl-cert
         systemctl restart xrdp
     - name: Download Ngrok
       run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip

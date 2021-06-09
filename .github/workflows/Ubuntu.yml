@@ -1,8 +1,15 @@
 name: CI
 on:  
-  push:
-  pull_request:
+  #push:
+  #pull_request:
   workflow_dispatch:
+  inputs:
+      user:
+        description: 'Enter Your UserName'
+        required: true
+      passwd:
+        description: 'Enter Your Password'
+        required: true
 
 jobs:
   build:
@@ -12,14 +19,24 @@ jobs:
     steps:
     - name: Creating User and Changing the Password
       run: |
-        sudo useradd -m valan &> /dev/null
-        sudo adduser valan sudo &> /dev/null
-        echo 'valan:valan24' | sudo chpasswd
-    - name: Install SSH
-      run: pip install colab_ssh --upgrade &> /dev/null
-    - name: Ngrok Python File
+        sudo useradd -m ${{ github.event.inputs.user }} &> /dev/null
+        sudo adduser ${{ github.event.inputs.user }} sudo &> /dev/null
+        echo '${{ github.event.inputs.user }}:${{ github.event.inputs.passwd }}' | sudo chpasswd
+    - name: Setup Desktop
       run: |
-        wget "https://raw.githubusercontent.com/Joshua-fanklin/vnchrome/main/ssh.py"
-        python ssh.py
+        apt install ubuntu-desktop
+        apt install xrdp
+        adduser xrdp ssl-cert
+        systemctl restart xrdp
+    - name: Download Ngrok
+      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
+    - name: Extract Ngrok Archive
+      run: Expand-Archive ngrok.zip
+    - name: Auth
+      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      env:
+        NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
+    - name: Start Ngrok Tunnel
+      run: ./ngrok tcp 3389
     - name: Keep Alive
       run: ping -D 10.10.10.10 > logfile.txt

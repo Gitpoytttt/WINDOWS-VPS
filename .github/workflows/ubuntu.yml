@@ -1,7 +1,7 @@
 name: Ubuntu
 on:
   workflow_dispatch:
-  inputs:
+    inputs:
       user:
         description: 'Enter Your UserName'
         required: true
@@ -11,9 +11,7 @@ on:
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - name: Creating User and Changing the Password
       run: |

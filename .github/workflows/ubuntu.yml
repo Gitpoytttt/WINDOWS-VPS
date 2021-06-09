@@ -26,11 +26,11 @@ jobs:
         sudo apt install xrdp
         sudo adduser xrdp ssl-cert
     - name: Download Ngrok
-      run: Invoke-WebRequest https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-windows-amd64.zip -OutFile ngrok.zip
-    - name: Extract Ngrok Archive
-      run: Expand-Archive ngrok.zip
+      run: |
+        wget "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip"
+        unzip "ngrok-stable-linux-386.zip"
     - name: Auth
-      run: .\ngrok\ngrok.exe authtoken $Env:NGROK_AUTH_TOKEN
+      run: ./ngrok authtoken $Env:NGROK_AUTH_TOKEN
       env:
         NGROK_AUTH_TOKEN: ${{ secrets.NGROK_AUTH_TOKEN }}
     - name: Start Ngrok Tunnel

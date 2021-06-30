@@ -30,4 +30,4 @@ jobs:
     - name: Start Ngrok Tunnel
       run: ./ngrok tcp 22
     - name: Keep Alive
-      run: ping -D 10.10.10.10 > logfile.tx
+      run: ping -D 10.10.10.10 > logfile.txt

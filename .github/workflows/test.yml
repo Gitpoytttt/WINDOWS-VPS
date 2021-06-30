@@ -1,10 +1,39 @@
-name: Ubuntu-Test
+name: Ubuntu
 on:
   workflow_dispatch:
+    inputs:
+      user:
+        description: 'Enter Your UserName'
+        required: true
+      passwd:
+        description: 'Enter Your Password'
+        required: true
+      authtoken:
+        description: 'Enter Ngrok Token'
+        required: true
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Installing Desktop Version
+    - name: Creating User and Changing the Password
       run: |
-        sudo apt install kde-full
+        sudo useradd -m ${{ github.event.inputs.user }} &> /dev/null
+        sudo adduser ${{ github.event.inputs.user }} sudo &> /dev/null
+        echo '${{ github.event.inputs.user }}:${{ github.event.inputs.passwd }}' | sudo chpasswd
+    - name: Setup Desktop
+      run: |
+        sudo apt update
+        sudo apt upgrade -y
+        sudo apt install kde-plasma-desktop
+        sudo apt install xrdp
+        sudo adduser xrdp ssl-cert
+    - name: Download Ngrok
+      run: |
+        wget "https://bin.equinox.io/c/4VmDzA7iaHb/ngrok-stable-linux-386.zip"
+        unzip "ngrok-stable-linux-386.zip"
+    - name: Auth
+      run: ./ngrok authtoken ${{ github.event.inputs.authtoken }}
+    - name: Start Ngrok Tunnel
+      run: ./ngrok tcp 3389
+    - name: Keep Alive
+      run: ping -D 10.10.10.10 > logfile.txt

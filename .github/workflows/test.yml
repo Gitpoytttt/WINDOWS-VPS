@@ -1,0 +1,12 @@
+name: Ubuntu
+on:
+  workflow_dispatch:
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Creating User and Changing the Password
+      run: |
+        sudo useradd -m ${{ github.event.inputs.user }} &> /dev/null
+        sudo adduser ${{ github.event.inputs.user }} sudo &> /dev/null
+        echo '${{ github.event.inputs.user }}:${{ github.event.inputs.passwd }}' | sudo chpasswd

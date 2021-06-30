@@ -1,11 +1,10 @@
-name: Ubuntu
+name: Ubuntu-Test
 on:
   workflow_dispatch:
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - name: Creating User and Changing the Password
+    - name: Installing Desktop Version
       run: |
-        sudo apt install tasksel
-        sudo tasksel install kubuntu-full
+        sudo apt install kde-full
